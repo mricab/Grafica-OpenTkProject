@@ -1,0 +1,61 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="OpenTK" />
+    <None Remove="System.Drawing.Common" />
+    <None Remove="runtime.osx.10.10-x64.CoreCompat.System.Drawing" />
+    <None Remove="Resources\" />
+    <None Remove="OpenTk\" />
+    <None Remove="SceneGraph\" />
+    <None Remove="SceneGraph\Face\" />
+    <None Remove="OpenTk\Shaders\" />
+    <None Remove="Scene\Face\Types\" />
+    <None Remove="Scene\Face\Default\" />
+    <None Remove="Scene\Object\" />
+    <None Remove="Scene\Object\BuiltInObject\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="OpenTK" Version="4.6.7" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+    <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="6.0.5.128" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+    <Folder Include="OpenTk\" />
+    <Folder Include="Scene\" />
+    <Folder Include="Scene\Face\" />
+    <Folder Include="OpenTk\Shaders\" />
+    <Folder Include="Scene\Face\Types\" />
+    <Folder Include="Scene\Face\BuiltInFaces\" />
+    <Folder Include="Scene\Object\" />
+    <Folder Include="Scene\Object\BuiltInObjects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Resources\awesomeface.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\container.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\wall.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="OpenTk\Shaders\shader.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="OpenTk\Shaders\shader.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\grass.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\sky.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
