@@ -18,6 +18,7 @@
     <None Remove="Scene\Face\Default\" />
     <None Remove="Scene\Object\" />
     <None Remove="Scene\Object\BuiltInObject\" />
+    <None Remove="OpenTk\Input\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="4.6.7" />
@@ -34,6 +35,7 @@
     <Folder Include="Scene\Face\BuiltInFaces\" />
     <Folder Include="Scene\Object\" />
     <Folder Include="Scene\Object\BuiltInObjects\" />
+    <Folder Include="OpenTk\Input\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Resources\awesomeface.png">

@@ -1,4 +1,5 @@
 ﻿
+using System;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
@@ -7,7 +8,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace OpenTkProject
 {
-    public class Window : GameWindow
+    public class Window : GameWindow, IInputListener
     {
         /* Properties */
 
@@ -15,6 +16,8 @@ namespace OpenTkProject
         Camera Camera;
         Scene Scene;
         Color4 ClearColor;
+        InputListener InputListener;
+
 
         /* Methods */
 
@@ -26,11 +29,28 @@ namespace OpenTkProject
         {
             this.ClearColor = ClearColor;
             this.Scene = Scene;
+            this.InputListener = new InputListener(this, 50);            
         }
+
+        private void CheckInput()
+        {
+            if (KeyboardState.IsKeyDown(Keys.Escape))
+            {
+                InputListener.Stop();
+                Close();                                                    // Closes Window on ESC
+            }
+            Console.WriteLine("(Window Input)\tInput Checked.");
+        }
+
+
+        /* Game Window Methods */
 
         protected override void OnLoad()
         {
             base.OnLoad();
+            InputListener.RegisterObserver(this);
+            InputListener.Start();
+            //CursorGrabbed = true;                                         // Makes cursor invisible.
 
             // OpenGL Initialization
             GL.ClearColor(ClearColor);                                      // Defines the color of the window
@@ -46,8 +66,7 @@ namespace OpenTkProject
             Scene.Initialize();
 
             // Camera
-            Camera = new Camera(Vector3.UnitZ * 3, Size.X / (float)Size.Y); // Initialization
-            //CursorGrabbed = true;                                         // Makes cursor invisible.
+            Camera = new Camera(Vector3.UnitZ * 3, Size.X / (float)Size.Y); // Initialization            
         }
 
 
@@ -68,12 +87,11 @@ namespace OpenTkProject
             SwapBuffers();                                                  // Swaps areas (Double-Buffer)
         }
 
-        protected override void OnUpdateFrame(FrameEventArgs e)
+        protected override void OnMouseMove(MouseMoveEventArgs e)
         {
-            base.OnUpdateFrame(e);
-            if (!IsFocused) return;
-            if (KeyboardState.IsKeyDown(Keys.Escape)) { Close(); }          // Closes Window on ESC
-            Camera.CheckInput(KeyboardState, MouseState, (float)e.Time);    // Checks for Camera Input
+            ;
+            base.OnMouseMove(e);
+            Camera.SetPerspective(e.X - Size.X / 2, e.Y - Size.Y / 2);
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
@@ -100,6 +118,16 @@ namespace OpenTkProject
             Shader.Delete();
 
             base.OnUnload();
+        }
+
+
+        /* IInputListener Methods */
+
+        void IInputListener.OnInputReceived(InputReceivedEvent e)
+        {
+            Console.WriteLine("(Window)\tEvent received.");
+            this.CheckInput();
+            Camera.CheckInput(e.keyboard, e.mouse, e.time);
         }
     }
 }

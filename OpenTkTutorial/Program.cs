@@ -23,8 +23,8 @@ namespace OpenTkProject
 
             var gameWindowSettings = new GameWindowSettings()
             {
-                IsMultiThreaded = true,
-                RenderFrequency = 10.0,
+                IsMultiThreaded = false,
+                RenderFrequency = 60.0,
             };
 
             GLFW.WindowHint(WindowHintBool.OpenGLForwardCompat, true);  //macOS Requirement

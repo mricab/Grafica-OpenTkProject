@@ -127,18 +127,23 @@ namespace OpenTkProject
             if (input.IsKeyDown(keys[4])) { Position += Up * cameraSpeed * time; };     // Move Camera Up.
             if (input.IsKeyDown(keys[5])) { Position -= Up * cameraSpeed * time; };     // Move Camera Down.
 
+            Console.WriteLine("(Camera Input)\tKeyboard Checked.");
+        }
+
+        public void SetPerspective(float X, float Y)
+        {
             // Mouse            
             if (MouseFirstMove)
             {
-                MouseLastPosition = new Vector2(mouse.X, mouse.Y);
+                MouseLastPosition = new Vector2(X, Y);
                 MouseFirstMove = false;
             }
             else
             {
                 // Mouse's offset
-                var deltaX = mouse.X - MouseLastPosition.X;
-                var deltaY = mouse.Y - MouseLastPosition.Y;
-                MouseLastPosition = new Vector2(mouse.X, mouse.Y);
+                var deltaX = X - MouseLastPosition.X;
+                var deltaY = Y - MouseLastPosition.Y;
+                MouseLastPosition = new Vector2(X, Y);
                 // Pitch and Yaw
                 Yaw += deltaX * sensitivity;
                 Pitch -= deltaY * sensitivity;
