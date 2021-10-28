@@ -117,7 +117,7 @@ namespace OpenTkProject
             this.keys = keys;
         }
 
-        public void CheckInput(KeyboardState input, MouseState mouse, float time)
+        public void SetPosition(KeyboardState input, float time)
         {
             // Keyboard
             if (input.IsKeyDown(keys[0])) { Position += Front * cameraSpeed * time; };  // Move Camera Forward.

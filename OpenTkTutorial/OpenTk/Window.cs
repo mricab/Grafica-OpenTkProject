@@ -127,7 +127,7 @@ namespace OpenTkProject
         {
             Console.WriteLine("(Window)\tEvent received.");
             this.CheckInput();
-            Camera.CheckInput(e.keyboard, e.mouse, e.time);
+            Camera.SetPosition(e.keyboard, e.time);
         }
     }
 }
