@@ -7,13 +7,13 @@ using OpenTK.Mathematics;
 
 namespace OpenTkProject
 {
-    public enum FaceType
+    public enum PolygonType
     {
-        VFace,      // Basic face. (Only uses Vertex Buffer Object)
-        EFace,      // Element face. (Uses Element Buffer Object)
+        VPolygon,      // Basic Polygon. (Only uses Vertex Buffer Object)
+        EPolygon,      // Element Polygon. (Uses Element Buffer Object)
     }
 
-    public class Face
+    public class Polygon
     {
         /* Properties */
 
@@ -22,7 +22,7 @@ namespace OpenTkProject
         const int TextureCordinatesSize = 2;
         const int Stride = 10;
 
-        [JsonInclude] public FaceType Type;
+        [JsonInclude] public PolygonType Type;
 
         [JsonInclude] public float[][] Vertices;
         [JsonInclude] public uint[] Indices;
@@ -41,7 +41,7 @@ namespace OpenTkProject
         [JsonIgnore]  private Vector3 _Centre;
         [JsonIgnore]  private Vector3 _Rotation;
 
-        [JsonIgnore]  public int VAO;         // Stores Vertex Array Object id in RAM
+        [JsonIgnore]  public  int VAO;        // Stores Vertex Array Object id in RAM
         [JsonIgnore]  private int VBO;        // Stores Vertex Buffer Object id in RAM
         [JsonIgnore]  private int EBO;        // Stores Element Buffer Object id's in RAM
 
@@ -85,7 +85,7 @@ namespace OpenTkProject
             this.Texture = Texture;
         }
 
-        public Face(                                //VFace Constructor
+        public Polygon(                                //VPolygon Constructor
             float[][] Vertices,
             float[][] Colors,
             float[][] TextureCoordinates,
@@ -97,7 +97,7 @@ namespace OpenTkProject
                 float ZDegRotation,
                 uint? Texture = null)
         {
-            this.Type = FaceType.VFace;
+            this.Type = PolygonType.VPolygon;
             Constructor(
                 Vertices, Colors, TextureCoordinates,
                 XCentre, YCentre, ZCentre,
@@ -106,7 +106,7 @@ namespace OpenTkProject
         }
 
 
-        public Face(                                //EFace Constructor
+        public Polygon(                                //EPolygon Constructor
             float[][] Vertices,
             float[][] Colors,
             float[][] TextureCoordinates,
@@ -119,7 +119,7 @@ namespace OpenTkProject
                 float ZDegRotation,
                 uint? Texture = null)
         {
-            this.Type = FaceType.EFace;
+            this.Type = PolygonType.EPolygon;
             Constructor(
                 Vertices, Colors, TextureCoordinates,
                 XCentre, YCentre, ZCentre,
@@ -129,8 +129,8 @@ namespace OpenTkProject
         }
 
         [JsonConstructor]
-        public Face(                                //Json Constructor
-             FaceType Type,
+        public Polygon(                                //Json Constructor
+             PolygonType Type,
             float[][] Vertices, 
             float[][] Colors,
             float[][] TextureCoordinates,
@@ -281,7 +281,7 @@ namespace OpenTkProject
             SetFinalData();
             SetVAO();
             // EBO
-            if (Type == FaceType.EFace) SetEBO();
+            if (Type == PolygonType.EPolygon) SetEBO();
         }
 
         public void Draw(bool Polygon = false)
@@ -290,10 +290,10 @@ namespace OpenTkProject
             GL.BindVertexArray(VAO);                
             if (Polygon) GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
             // Drawing
-            if (Type == FaceType.VFace)                        // VFace
+            if (Type == PolygonType.VPolygon)                        // VPolygon
                 GL.DrawArrays(
                     PrimitiveType.Triangles, 0, 36);
-            if (Type == FaceType.EFace)                        // EFace
+            if (Type == PolygonType.EPolygon)                        // EPolygon
                 GL.DrawElements(
                     PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, 0);
             // VAO unbinding
@@ -304,7 +304,7 @@ namespace OpenTkProject
         {
             GL.DeleteBuffer(VBO);
             GL.DeleteVertexArray(VAO);
-            if (Type == FaceType.EFace) GL.DeleteBuffer(EBO);
+            if (Type == PolygonType.EPolygon) GL.DeleteBuffer(EBO);
         }
     }
 }

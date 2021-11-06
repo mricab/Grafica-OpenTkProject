@@ -32,10 +32,10 @@ namespace OpenTkProject
             ReadHouse1.Traslate(0f, 3f, 0f);
             ReadHouse1.Scale(0.5f);
 
-            // House 2 - Deserialization
+            //// House 2 - Deserialization
             Object ReadHouse2 = Object.Deserialize(filename);    // Deserialization
 
-            // House 2 - Transformations
+            //// House 2 - Transformations
             ReadHouse2.Rotate(0f, 45f, 0f);
             ReadHouse2.Traslate(-2f, -1f, -1f);
 
@@ -43,7 +43,7 @@ namespace OpenTkProject
             Scene Scene = new Scene();
             Scene.Add("House1", ReadHouse1);
             Scene.Add("House2", ReadHouse2);
-            //Scene.Rotate(0f, 45f, 0f);
+            Scene.Rotate(0f, 0f, 0f);
 
             // Window settings
             var nativeWindowSettings = new NativeWindowSettings()

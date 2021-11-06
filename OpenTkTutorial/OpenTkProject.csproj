@@ -18,6 +18,7 @@
     <None Remove="Scene\Object\" />
     <None Remove="Scene\Object\BuiltInObject\" />
     <None Remove="OpenTk\Input\" />
+    <None Remove="Scene\Contenedor\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="4.6.7" />
@@ -28,12 +29,13 @@
     <Folder Include="Resources\" />
     <Folder Include="OpenTk\" />
     <Folder Include="Scene\" />
-    <Folder Include="Scene\Face\" />
+    <Folder Include="Scene\Polygon\" />
     <Folder Include="OpenTk\Shaders\" />
-    <Folder Include="Scene\Face\BuiltInFaces\" />
-    <Folder Include="Scene\Object\" />
-    <Folder Include="Scene\Object\BuiltInObjects\" />
+    <Folder Include="Scene\Polygon\Built-In\" />
+    <Folder Include="Scene\Face\" />
+    <Folder Include="Scene\Face\Bulit-In\" />
     <Folder Include="OpenTk\Input\" />
+    <Folder Include="Scene\Object\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Resources\awesomeface.png">
