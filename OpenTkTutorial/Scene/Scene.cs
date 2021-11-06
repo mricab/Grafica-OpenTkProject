@@ -13,9 +13,29 @@ namespace OpenTkProject
 
         /* Methods */
     
-        public Scene(Object Root)
+        public Scene()
         {
-            this.Root = Root;
+            this.Root = new RootObject();
+        }
+
+        public void Add(string Name, Object Object)
+        {
+            this.Root.AddObject(Name, Object);
+        }
+
+        public void Traslate(float X, float Y, float Z)
+        {
+            Root.Traslate(X, Y, Z);
+        }
+
+        public void Scale(float Factor)
+        {
+            Root.Scale(Factor);
+        }
+
+        public void Rotate(float XDeg, float YDeg, float ZDeg)
+        {
+            Root.Rotate(XDeg, YDeg, ZDeg);
         }
 
         public void Initialize()

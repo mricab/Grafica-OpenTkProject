@@ -14,7 +14,6 @@
     <None Remove="SceneGraph\" />
     <None Remove="SceneGraph\Face\" />
     <None Remove="OpenTk\Shaders\" />
-    <None Remove="Scene\Face\Types\" />
     <None Remove="Scene\Face\Default\" />
     <None Remove="Scene\Object\" />
     <None Remove="Scene\Object\BuiltInObject\" />
@@ -31,7 +30,6 @@
     <Folder Include="Scene\" />
     <Folder Include="Scene\Face\" />
     <Folder Include="OpenTk\Shaders\" />
-    <Folder Include="Scene\Face\Types\" />
     <Folder Include="Scene\Face\BuiltInFaces\" />
     <Folder Include="Scene\Object\" />
     <Folder Include="Scene\Object\BuiltInObjects\" />

@@ -3,47 +3,54 @@ using OpenTK.Mathematics;
 
 namespace OpenTkProject
 {
-    public class Triangle : VFace
+    public class Triangle : Face
     {
         public Triangle(
-            float Size, Vector4 Color,
-            Vector3 Centre, Vector3 Rotation, uint? TextureId = null)
+            float Size, float[] Color,
+            float XCentre, float YCentre, float ZCentre,
+            float XDegRotation, float YDegRotation, float ZDegRotation,
+            uint? TextureId = null)
             : base(
-                  Vertices(Size), Colors(Color), TextureCoordinates(),
-                  Centre, Rotation, TextureId)
+                  CreateVertices(Size),
+                  CreateColors(Color),
+                  CreateTextureCoordinates(),
+                  XCentre, YCentre, ZCentre,
+                  XDegRotation, YDegRotation, ZDegRotation,
+                  TextureId)
         { }
 
-        private static Vector4[] Vertices(float Size)
+        private static float[][] CreateVertices(float Size)
         {
             float Height = ((float)Math.Sqrt(3) / 2) * Size;
-            Vector4[] vertices =
+            float[][] vertices = new float[3][]
             {
                 // Positions
-                new Vector4( 0.0f,      -0.5f+Height,  0.0f,  1.0f),  // 0) Top vertex
-                new Vector4(-0.5f*Size, -0.5f*Size,    0.0f,  1.0f),  // 1) Bottom-right vertex
-                new Vector4( 0.5f*Size, -0.5f*Size,    0.0f,  1.0f),  // 2) Bottom-left vertex
+                new float[] {  0.0f,      -0.5f+Height,  0.0f,  1.0f },  // 0) Top vertex
+                new float[] { -0.5f*Size, -0.5f*Size,    0.0f,  1.0f },  // 1) Bottom-right vertex
+                new float[] {  0.5f*Size, -0.5f*Size,    0.0f,  1.0f },  // 2) Bottom-left vertex
             };
             return vertices;
         }
 
-        private static Vector4[] Colors(Vector4 Color)
+        private static float[][] CreateColors(float[] Color)
         {
             // Colors (RGBA)
-            Vector4[] colors = new Vector4[]
+            float[][] colors = new float[3][]
             {
                 Color, Color, Color,
+
             };
             return colors;
         }
 
-        private static Vector2[] TextureCoordinates()
+        private static float[][] CreateTextureCoordinates()
         {
             // 2D Texture coordinates
-            Vector2[] textureCoordinates = new Vector2[]
+            float[][] textureCoordinates = new float[3][]
             {
-                new Vector2(0.5f, 1.0f),    // 0) Top vertex
-                new Vector2(0.0f, 0.0f),    // 1) Bottom-right vertex
-                new Vector2(1.0f, 0.0f),    // 2) Bottom-left vertex
+                new float[] { 0.5f, 1.0f },    // 0) Top vertex
+                new float[] { 0.0f, 0.0f },    // 1) Bottom-right vertex
+                new float[] { 1.0f, 0.0f },    // 2) Bottom-left vertex
             };
             return textureCoordinates;
         }
