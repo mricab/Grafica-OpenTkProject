@@ -11,8 +11,8 @@ namespace OpenTkProject
 {
     class Program
     {
-        const int WindowHeight = 600;
-        const int WindowWidth = 800;
+        const int WindowHeight = 900;
+        const int WindowWidth = 1600;
         static Color4 ClearColor = new Color4(0.2f, 0.3f, 0.3f, 1.0f);
 
         static void Main(string[] args)
@@ -32,10 +32,10 @@ namespace OpenTkProject
             ReadHouse1.Traslate(0f, 3f, 0f);
             ReadHouse1.Scale(0.5f);
 
-            //// House 2 - Deserialization
+            // House 2 - Deserialization
             Object ReadHouse2 = Object.Deserialize(filename);    // Deserialization
 
-            //// House 2 - Transformations
+            // House 2 - Transformations
             ReadHouse2.Rotate(0f, 45f, 0f);
             ReadHouse2.Traslate(-2f, -1f, -1f);
 

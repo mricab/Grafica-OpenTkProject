@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,16 +20,19 @@
     <None Remove="Scene\Object\BuiltInObject\" />
     <None Remove="OpenTk\Input\" />
     <None Remove="Scene\Contenedor\" />
+    <None Remove="Gwen" />
+    <None Remove="Gwen.Renderer.OpenTK" />
+    <None Remove="ImGuiNet.OpenTK" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="ImGui.NET" Version="1.78.0" />
     <PackageReference Include="OpenTK" Version="4.6.7" />
-    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="6.0.5.128" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="OpenTk\" />
-    <Folder Include="Scene\" />
     <Folder Include="Scene\Polygon\" />
     <Folder Include="OpenTk\Shaders\" />
     <Folder Include="Scene\Polygon\Built-In\" />

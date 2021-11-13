@@ -9,19 +9,21 @@ namespace OpenTkProject
     {
         /* Properties */
 
-        private uint objects;
+        public uint objects;
         private Dictionary<string, Object> Objects;
-        public  float ScaleFactor;
-        public  float[] Translation;
-        public  float[] Rotation;          // X, Y, Z Rotation Angles
+        public Dictionary<string, string[]> Tree;
+        public float ScaleFactor;
+        public float[] Translation;
+        public float[] Rotation;          // X, Y, Z Rotation Angles
         private Matrix4 _TransformModel;
 
         /* Methods */
-    
+
         public Scene()
         {
             this.objects = 0;
             this.Objects = new Dictionary<string, Object>();
+            this.Tree = new Dictionary<string, string[]>();
             this.ScaleFactor = 1.0f;
             this.Translation = new float[3] { 0f, 0f, 0f };
             this.Rotation = new float[3] { 0f, 0f, 0f };
@@ -44,6 +46,16 @@ namespace OpenTkProject
         {
             this.Objects.Remove(Name);
             objects--;
+        }
+
+        private void SetTree()
+        {
+            foreach (var o in Objects)
+            {
+                string[] facesNames = new string[o.Value.faces];
+                o.Value.Faces.Keys.CopyTo(facesNames, 0);
+                Tree.Add(o.Key, facesNames);
+            }
         }
 
         /* Transformation Methods */
@@ -81,6 +93,49 @@ namespace OpenTkProject
                 * Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotation[2]));
         }
 
+        /* Objects transformation methods */
+
+        public void TransformObject(string objectName, Transformation transformation, float delta, Axis? axis = null)
+        {
+            if (transformation == Transformation.Rotate || transformation == Transformation.Translate)
+            {
+                if (axis == null) throw new Exception("Axis expected.");
+            }
+
+            try
+            {
+                Object o;
+                Objects.TryGetValue(objectName, out o);
+                if (transformation == Transformation.Scale)     { o.ModifyScaleFactor(delta); };
+                if (transformation == Transformation.Rotate)    { o.ModifyRotation((Axis)axis, delta); };
+                if (transformation == Transformation.Translate) { o.ModifyTranslation((Axis)axis, delta); };
+                Objects[objectName] = o;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Unknown object name.");
+            }
+        }
+
+        public void TransformFace(string objectName, string faceName, Transformation transformation, float delta, Axis? axis = null)
+        {
+            if (transformation == Transformation.Rotate || transformation == Transformation.Translate)
+            {
+                if (axis == null) throw new Exception("Axis expected.");
+            }
+
+            try
+            {
+                if(transformation == Transformation.Scale) Objects[objectName].TransformFace(faceName, transformation, delta);
+                else Objects[objectName].TransformFace(faceName, transformation, delta, axis);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Unknown object name.");
+            }
+        }
+
+
         /* Drawing Methods */
 
         public void Initialize()
@@ -106,6 +161,32 @@ namespace OpenTkProject
             foreach (var o in Objects)
             {
                 o.Value.Delete();
+            }
+        }
+
+        /* GUI Methods */
+
+
+        public string[] GetObjectsNames()
+        {
+            string[] names = new string[objects];
+            Objects.Keys.CopyTo(names, 0);
+            return names;
+        }
+
+        public string[] GetFacesNames(string objectName)
+        {
+            try
+            {
+                Object o;
+                Objects.TryGetValue(objectName, out o);
+                string[] names = new string[o.faces];
+                o.Faces.Keys.CopyTo(names, 0);
+                return names;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Unknown object name.");
             }
         }
     }
