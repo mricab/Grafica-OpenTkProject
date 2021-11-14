@@ -140,6 +140,7 @@ namespace OpenTkProject
 
         /* Sample GUI Constructor */
 
+        private bool whole_scene = true;
         private int  sel_object = 0;
         private string sel_objectName;
         private bool whole_object = true;
@@ -151,19 +152,28 @@ namespace OpenTkProject
         private void BuildGUI()
         {
             string[] Objects = Scene.GetObjectsNames();
-            if(sel_objectName == null) sel_objectName = Objects[sel_object];
+            if (sel_objectName == null) sel_objectName = Objects[sel_object];
             string[] Faces = Scene.GetFacesNames(sel_objectName);
+            if (sel_faceName == null) sel_faceName = Faces[sel_face];
 
             ImGui.Begin("Opciones");
 
             // Selector
             ImGui.Text("Selector");
-            if (ImGui.Combo("Objeto", ref sel_object, Objects, Objects.Length)) sel_objectName = Objects[sel_object];
-            if (!whole_object)
+            ImGui.Checkbox("Toda la escena", ref whole_scene);
+            if (!whole_scene)
             {
-                if(ImGui.Combo("Cara", ref sel_face, Faces, Faces.Length)) sel_faceName = Faces[sel_face];
+                ImGui.Checkbox("Todo el objeto", ref whole_object);
+                if (ImGui.Combo("Objeto", ref sel_object, Objects, Objects.Length))
+                {
+                    sel_objectName = Objects[sel_object];
+                    sel_face = 0; sel_faceName = null;
+                }
+                if (!whole_object)
+                {
+                    if (ImGui.Combo("Cara", ref sel_face, Faces, Faces.Length)) sel_faceName = Faces[sel_face];
+                }
             }
-            ImGui.Checkbox("Todo el objeto", ref whole_object);
 
             // Transformation
             ImGui.Separator();
@@ -208,13 +218,15 @@ namespace OpenTkProject
 
             if (KeyboardState.IsKeyDown(Keys.KeyPadSubtract) || KeyboardState.IsKeyDown(Keys.D1))   // - ó 1
             {
-                if (whole_object) Scene.TransformObject(sel_objectName, sel_transf, -delta, (Axis)sel_axis);
-                else Scene.TransformFace(sel_objectName, sel_faceName, sel_transf, -delta, (Axis)sel_axis);
+                if      (whole_scene)   Scene.TransformScene(sel_transf, -delta, (Axis)sel_axis);
+                else if (whole_object)  Scene.TransformObject(sel_objectName, sel_transf, -delta, (Axis)sel_axis);
+                else                    Scene.TransformFace(sel_objectName, sel_faceName, sel_transf, -delta, (Axis)sel_axis);
             }
             if (KeyboardState.IsKeyDown(Keys.KeyPadAdd) || KeyboardState.IsKeyDown(Keys.D2))        // + ó 2
             {
-                if (whole_object) Scene.TransformObject(sel_objectName, sel_transf, +delta, (Axis)sel_axis);
-                else Scene.TransformFace(sel_objectName, sel_faceName, sel_transf, +delta, (Axis)sel_axis);
+                if      (whole_scene)   Scene.TransformScene(sel_transf, +delta, (Axis)sel_axis);
+                else if (whole_object)  Scene.TransformObject(sel_objectName, sel_transf, +delta, (Axis)sel_axis);
+                else                    Scene.TransformFace(sel_objectName, sel_faceName, sel_transf, +delta, (Axis)sel_axis);
             }
         }
 

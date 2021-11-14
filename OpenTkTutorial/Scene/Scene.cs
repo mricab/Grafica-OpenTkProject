@@ -83,18 +83,57 @@ namespace OpenTkProject
             SetTransformModel();
         }
 
+        public void ModifyTranslation(Axis axis, float delta)
+        {
+            if (axis == Axis.X) Translation[0] += delta;
+            if (axis == Axis.Y) Translation[1] += delta;
+            if (axis == Axis.Z) Translation[2] += delta;
+            SetTransformModel();
+        }
+
+        public void ModifyScaleFactor(float delta)
+        {
+            this.ScaleFactor += delta;
+            SetTransformModel();
+        }
+
+        public void ModifyRotation(Axis axis, float delta)
+        {
+            if (axis == Axis.X) Rotation[0] += delta;
+            if (axis == Axis.Y) Rotation[1] += delta;
+            if (axis == Axis.Z) Rotation[2] += delta;
+            SetTransformModel();
+        }
+
         private void SetTransformModel()
         {
             _TransformModel = Matrix4.Identity
-                * Matrix4.CreateTranslation(new Vector3(Translation[0], Translation[1], Translation[2]))
                 * Matrix4.CreateScale(ScaleFactor)
                 * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotation[0]))
                 * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotation[1]))
-                * Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotation[2]));
+                * Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotation[2]))
+                * Matrix4.CreateTranslation(new Vector3(Translation[0], Translation[1], Translation[2]));
+            //_TransformModel = Matrix4.Identity
+            //    * Matrix4.CreateTranslation(new Vector3(Translation[0], Translation[1], Translation[2]))
+            //    * Matrix4.CreateScale(ScaleFactor)
+            //    * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotation[0]))
+            //    * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotation[1]))
+            //    * Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotation[2]));
         }
 
         /* Objects transformation methods */
 
+        public void TransformScene(Transformation transformation, float delta, Axis? axis = null)
+        {
+            if (transformation == Transformation.Rotate || transformation == Transformation.Translate)
+            {
+                if (axis == null) throw new Exception("Axis expected.");
+            }
+
+            if (transformation == Transformation.Scale) { this.ModifyScaleFactor(delta); };
+            if (transformation == Transformation.Rotate) { this.ModifyRotation((Axis)axis, delta); };
+            if (transformation == Transformation.Translate) { this.ModifyTranslation((Axis)axis, delta); };
+        }
         public void TransformObject(string objectName, Transformation transformation, float delta, Axis? axis = null)
         {
             if (transformation == Transformation.Rotate || transformation == Transformation.Translate)
@@ -165,7 +204,6 @@ namespace OpenTkProject
         }
 
         /* GUI Methods */
-
 
         public string[] GetObjectsNames()
         {
