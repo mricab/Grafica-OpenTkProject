@@ -28,6 +28,7 @@ namespace OpenTkProject
         private Vector3 Right = Vector3.UnitX;
 
         // Camera Rotations        
+        public bool EnablePitchAndYaw = false;
         private float _pitch;                           // Rotation around the X axis (radians)
         private float _yaw = -MathHelper.PiOver2;       // Rotation around the Y axis (radians)
 
@@ -145,8 +146,11 @@ namespace OpenTkProject
                 var deltaY = Y - MouseLastPosition.Y;
                 MouseLastPosition = new Vector2(X, Y);
                 // Pitch and Yaw
-                Yaw += deltaX * sensitivity;
-                Pitch -= deltaY * sensitivity;
+                if(EnablePitchAndYaw)
+                {
+                    Yaw += deltaX * sensitivity;
+                    Pitch -= deltaY * sensitivity;
+                }
             }
         }
 

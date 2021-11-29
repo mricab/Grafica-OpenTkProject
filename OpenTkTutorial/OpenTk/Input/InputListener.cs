@@ -51,7 +51,7 @@ namespace OpenTkProject
             {
                 now = System.DateTime.Now;
 
-                Console.WriteLine("(Input listener)\tListen attemp at {0}.", now);
+                //Console.WriteLine("(Input listener)\tListen attemp at {0}.", now);
                 if (now >= lastTry.AddMilliseconds(Delay) && Window.IsFocused)
                 {
                     try

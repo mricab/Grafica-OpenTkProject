@@ -6,6 +6,8 @@ namespace OpenTkProject
     public static class Colors
     {
         public static float[] White = new float[4] { 1, 1, 1, 0.5f };
+        public static float[] Black = new float[4] { 0, 0, 0, 1f };
+        public static float[] AshBlack = new float[4] { 0.06275f, 0.06275f, 0.06275f, 1f };
         public static float[] Red = new float[4] { 1, 0, 0, 1 };
         public static float[] Green = new float[4] { 0, 1, 0, 1 };
         public static float[] Blue = new float[4] { 0, 0, 1, 1 };

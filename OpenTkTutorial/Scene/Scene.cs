@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 
-namespace OpenTkProject
+namespace OpenTkProject.Model
 {
     public class Scene
     {

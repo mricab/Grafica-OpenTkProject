@@ -8,6 +8,8 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using System.Collections.Generic;
+using OpenTkProject.Model;
+using OpenTkProject.Animation;
 
 namespace OpenTkProject
 {
@@ -17,31 +19,50 @@ namespace OpenTkProject
 
         Shader Shader;
         Camera Camera;
-        private Scene Scene;
+        private Model.Scene Scene;
         Color4 ClearColor;
         InputListener InputListener;
         ImGuiController ImGuiController;
+        AnimationController AnimationController;
+        Script Script;
+
 
         /* Methods */
 
         public Window(
-            GameWindowSettings gameWindowSettings,
-            NativeWindowSettings nativeWindowSettings,
-            Scene Scene, Color4 ClearColor) 
-            : base(gameWindowSettings, nativeWindowSettings)
+            int WindowWidth, int WindowHeight, string Title,
+            Model.Scene Scene, Color4 ClearColor) 
+            : base(
+                  new GameWindowSettings()
+                    {
+                        IsMultiThreaded = true,
+                         RenderFrequency = 60.0,
+                    }, 
+                  new NativeWindowSettings() {
+                        Size = new Vector2i(WindowWidth, WindowHeight),
+                        Title = Title,
+                    }
+                  )
         {
             this.ClearColor = ClearColor;
             this.Scene = Scene;
             this.InputListener = new InputListener(this, 50);
+            this.AnimationController = new AnimationController();
         }
 
         private void CheckInput(KeyboardState KeyboardState)
         {
             TextInputQuit(KeyboardState);
             TextInputTransformation(KeyboardState);
+            TextInputPitchAndYaw(KeyboardState);
             Console.WriteLine("(Window Input)\tInput Checked.");
         }
 
+        private void Animate()
+        {
+            this.Script = Script.Deserialize("script.spt");
+            AnimationController.Run(ref Scene, ref Script);
+        }
 
         /* Game Window Methods */
 
@@ -155,6 +176,7 @@ namespace OpenTkProject
             if (sel_objectName == null) sel_objectName = Objects[sel_object];
             string[] Faces = Scene.GetFacesNames(sel_objectName);
             if (sel_faceName == null) sel_faceName = Faces[sel_face];
+            string fileName = "";
 
             ImGui.Begin("Opciones");
 
@@ -198,7 +220,14 @@ namespace OpenTkProject
             if (sel_transf == Transformation.Scale) ImGui.SliderFloat("Factor", ref scaleDelta, 0f, 0.5f);
             if (sel_transf == Transformation.Rotate) ImGui.SliderAngle("Angulo", ref rotateDelta);
             if (sel_transf == Transformation.Translate) ImGui.SliderFloat("Unidades", ref translateDelta, 0f, 5f);
+
+            // Animation
+            ImGui.Separator();
+            ImGui.Text("Animación");
+            ImGui.InputTextWithHint("Archivo", "script.spt", fileName, 100);
+            if (ImGui.Button("Animar")) Animate();
             ImGui.End();
+
         }
 
         float scaleDelta = 0.01f;
@@ -236,6 +265,14 @@ namespace OpenTkProject
             {
                 InputListener.Stop();
                 Close();                                                    // Closes Window on ESC
+            }
+        }
+
+        private void TextInputPitchAndYaw(KeyboardState keyboardState)
+        {
+            if(keyboardState.IsKeyDown(Keys.X))
+            {
+                Camera.EnablePitchAndYaw = !Camera.EnablePitchAndYaw; 
             }
         }
 
