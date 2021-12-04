@@ -16,11 +16,14 @@ namespace OpenTkProject
     {
         static void Main(string[] args)
         {
+            // Objects creation
+            AnimationObjects.SaveObjects();
+
             // Scene Creation
             Model.Scene Scene = new Model.Scene();
-            Scene.Add("Table", AnimationObjects.Table());
-            Scene.Add("Ant", AnimationObjects.Ant());
-            Scene.Add("Book", AnimationObjects.Book());
+            Scene.Add("Table", Object.Deserialize("table.json"));
+            Scene.Add("Ant", Object.Deserialize("ant.json"));
+            Scene.Add("Book", Object.Deserialize("book.json"));
 
             // Script Creation
             Script OriginalScript = AnimationScript.BuildScript();

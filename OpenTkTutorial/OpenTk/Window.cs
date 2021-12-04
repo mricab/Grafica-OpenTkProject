@@ -169,6 +169,7 @@ namespace OpenTkProject
         private string sel_faceName;
         private Transformation sel_transf = Transformation.Scale;
         private Axis sel_axis = Axis.X;
+        private bool repeate = false;
 
         private void BuildGUI()
         {
@@ -226,6 +227,7 @@ namespace OpenTkProject
             ImGui.Text("Animación");
             ImGui.InputTextWithHint("Archivo", "script.spt", fileName, 100);
             if (ImGui.Button("Animar")) Animate();
+            ImGui.Checkbox("Repetir", ref repeate);
             ImGui.End();
 
         }

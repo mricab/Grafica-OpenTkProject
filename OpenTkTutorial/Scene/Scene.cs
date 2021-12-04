@@ -48,16 +48,6 @@ namespace OpenTkProject.Model
             objects--;
         }
 
-        private void SetTree()
-        {
-            foreach (var o in Objects)
-            {
-                string[] facesNames = new string[o.Value.faces];
-                o.Value.Faces.Keys.CopyTo(facesNames, 0);
-                Tree.Add(o.Key, facesNames);
-            }
-        }
-
         /* Transformation Methods */
 
         public void Traslate(float X, float Y, float Z)
@@ -113,12 +103,6 @@ namespace OpenTkProject.Model
                 * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotation[1]))
                 * Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotation[2]))
                 * Matrix4.CreateTranslation(new Vector3(Translation[0], Translation[1], Translation[2]));
-            //_TransformModel = Matrix4.Identity
-            //    * Matrix4.CreateTranslation(new Vector3(Translation[0], Translation[1], Translation[2]))
-            //    * Matrix4.CreateScale(ScaleFactor)
-            //    * Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotation[0]))
-            //    * Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotation[1]))
-            //    * Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotation[2]));
         }
 
         /* Objects transformation methods */
@@ -171,6 +155,19 @@ namespace OpenTkProject.Model
             catch (Exception)
             {
                 throw new Exception("Unknown object name.");
+            }
+        }
+
+        public void RemoveTransformations()
+        {
+            this.ScaleFactor = 1.0f;
+            this.Translation = new float[3] { 0f, 0f, 0f };
+            this.Rotation = new float[3] { 0f, 0f, 0f };
+            SetTransformModel();
+
+            foreach (var o in Objects)
+            {
+                o.Value.RemoveTransformations();
             }
         }
 
